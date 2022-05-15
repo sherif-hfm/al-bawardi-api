@@ -1,0 +1,1 @@
+exports.salt='$2a$10$NyscfdAAXUum1sqiUpNRiu';
