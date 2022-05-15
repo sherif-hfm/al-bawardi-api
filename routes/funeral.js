@@ -7,6 +7,7 @@ const authController=require('../controllers/auth');
 router.get('/',funeralController.getTodayFuneral);
 router.get('/getDetails/:date',authController.isAuth,funeralController.getDetails);
 router.get('/getDetail/:Id',authController.isAuth,funeralController.getDetail);
+router.get('/getDayDetail/:date/:pid',funeralController.getDayDetail);
 router.post('/add',authController.isAuth,funeralController.addFuneral);
 router.post('/update',authController.isAuth,funeralController.updateFuneral);
 router.delete('/del/:Id',authController.isAuth,funeralController.deleteFuneral);

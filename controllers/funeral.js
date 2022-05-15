@@ -13,8 +13,8 @@ exports.getTodayFuneral=(req,res,next)=>{
     console.log(umalqura.gregorianToUmAlQura(new Date()));
     sequelize.query(sql,
     {
-        //bind: [moment().format('YYYY-MM-DD')],
-        bind: [moment('2022-05-09','YYYY-MM-DD').format('YYYY-MM-DD')],
+        bind: [moment().format('YYYY-MM-DD')],
+        //bind: [moment('2022-05-09','YYYY-MM-DD').format('YYYY-MM-DD')],
         type: QueryTypes.RAW,
         raw: true
     }).then(result=>{
@@ -42,6 +42,19 @@ exports.getDetail=(req,res,next)=>{
     console.log(moment().format('YYYY-MM-DD'));
     const qId=req.params.Id;
     Funeral.findByPk(qId).then(result=>{
+        console.log(result);
+        res.status(200).json(result);
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json();
+    });
+};
+
+exports.getDayDetail=(req,res,next)=>{
+    console.log(moment().format('YYYY-MM-DD'));
+    const pId=req.params.pid;
+    const date=req.params.date;
+    Funeral.findAll({ where: { date: date,prayerId:pId }}).then(result=>{
         console.log(result);
         res.status(200).json(result);
     }).catch(err=>{

@@ -57,7 +57,7 @@ exports.sginup=async (req,res,next)=>{
 };
 
 exports.logout=async (req,res,next)=>{
-    //await req.session.destroy();
+    await req.session.destroy();
     res.status(200).json();
 }
 
