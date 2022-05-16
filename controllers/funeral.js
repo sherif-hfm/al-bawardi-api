@@ -1,5 +1,5 @@
 const {validationResult}=require('express-validator');
-const { QueryTypes } = require('sequelize');
+const { QueryTypes,Op  } = require('sequelize');
 const moment=require('moment');
 
 const sequelize =require('../helpers/database');
@@ -23,6 +23,34 @@ exports.getTodayFuneral=(req,res,next)=>{
     }).catch(err=>{
         console.log(err);
         res.status(500).json();
+    });
+};
+
+exports.getStatistics=async (req,res,next)=>{
+    //
+    const today= await Funeral.count({col: 'id',distinct: false,where: { date: { [Op.gte]: moment(), [Op.lte]:moment() }} });
+    const yesterday= await Funeral.count({col: 'id',distinct: false,where: { date: { [Op.gte]: moment().add(-1, 'days'), [Op.lte]:moment().add(-1, 'days') }} });
+    const last7Days= await Funeral.count({col: 'id',distinct: false,where: { date: { [Op.gte]: moment().add(-7, 'days'), [Op.lte]:moment() }}});
+    const lastMonth= await Funeral.count({col: 'id',distinct: false,where: { date: { [Op.gte]: moment().add(-30, 'days'), [Op.lte]:moment() }}});
+    const now=new Date()
+    const crDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const crYearFirstDay = new Date(now.getFullYear(), 0, 1);
+    const diffDays = Math.ceil((crDate - crYearFirstDay) / (1000 * 60 * 60 * 24));
+    const crDateHijiry=umalqura.getCurrentDate(); 
+    const crHijiryYearFirstDayStr='01/01/' + crDateHijiry.year
+    const  crHijiryYearFirstDay=umalqura.umAlQuraToGregorian(crHijiryYearFirstDayStr);
+    const diffDaysHijiry = Math.ceil((crDate - crHijiryYearFirstDay) / (1000 * 60 * 60 * 24));
+    const lastYear= await Funeral.count({col: 'id',distinct: false,where: { date: { [Op.gte]: crYearFirstDay, [Op.lte]:now }}});
+    const lastYearHijiry= await Funeral.count({col: 'id',distinct: false,where: { date: { [Op.gte]: crHijiryYearFirstDay, [Op.lte]:now }}});
+    res.status(200).json({
+        today:today,
+        yesterday:yesterday,
+        last7Days:last7Days,
+        lastMonth:lastMonth,
+        diffDays:diffDays,
+        diffDaysHijiry:diffDaysHijiry,
+        lastYear:lastYear,
+        lastYearHijiry:lastYearHijiry
     });
 };
 

@@ -5,6 +5,7 @@ const funeralController=require('../controllers/funeral');
 const authController=require('../controllers/auth');
 
 router.get('/',funeralController.getTodayFuneral);
+router.get('/statistics',funeralController.getStatistics);
 router.get('/getDetails/:date',authController.isAuth,funeralController.getDetails);
 router.get('/getDetail/:Id',authController.isAuth,funeralController.getDetail);
 router.get('/getDayDetail/:date/:pid',funeralController.getDayDetail);
