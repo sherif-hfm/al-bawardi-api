@@ -1,5 +1,5 @@
 const {validationResult}=require('express-validator');
-const { QueryTypes } = require('sequelize');
+const { QueryTypes,Op } = require('sequelize');
 var bcrypt = require('bcryptjs');
 const sequelize =require('../helpers/database');
 const User=require('../models/user');
@@ -9,15 +9,19 @@ exports.login=async (req,res,next)=>{
     try{
         const userLogin=req.body.userLogin;
         const password=req.body.password;
-         const result= await User.findOne({ where: { loginName: userLogin } });
-         console.log(result);
-         if(result){
-            if(bcrypt.compareSync(password,result.password)){
+         const user= await User.findOne({ where: { loginName: userLogin,loginErrors:{[Op.lte] : 4},status:0 } });
+         console.log(user);
+         if(user){
+            if(bcrypt.compareSync(password,user.password)){
                 req.session.isAuth=true;
+                const uuser={loginErrors:0};
+                await User.update(uuser,{ where: { id: user.id } });
                 await req.session.save();
                 res.status(200).json();
             }
             else{
+                const uuser={loginErrors:user.loginErrors+1};
+                await User.update(uuser,{ where: { id: user.id } });
                 req.session.destroy();
                 res.status(401).json();         
             }
@@ -31,10 +35,6 @@ exports.login=async (req,res,next)=>{
         console.log(err);
         res.status(500).json();
     }
-   
-     //res.cookie('isAuth','true', { maxAge: 900000, httpOnly: true });
-    // res.cookie('isAuth','true', { maxAge: 900000, httpOnly: true });
-    //res.status(200).json({message:'ok',date:new Date().toLocaleString()});
 };
 
 exports.sginup=async (req,res,next)=>{
