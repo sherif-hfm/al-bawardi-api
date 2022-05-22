@@ -6,6 +6,9 @@ const sequelize =require('../helpers/database');
 const Funeral=require('../models/funeral');
 const arabNum=require('../helpers/arabicNums');
 const umalqura=require('../helpers/umalquraCalendar');
+const Prayer=require('../models/prayer');
+const PurialPlace=require('../models/burial-place');
+const Sex=require('../models/sex');
 
 exports.getTodayFuneral=(req,res,next)=>{
     let sql="CALL `al-bawardi`.`getFuneral`($1);"
@@ -57,7 +60,7 @@ exports.getStatistics=async (req,res,next)=>{
 exports.getDetails=(req,res,next)=>{
     console.log(moment().format('YYYY-MM-DD'));
     const qDate=req.params.date;
-    Funeral.findAll({ where: { date: qDate } }).then(result=>{
+    Funeral.findAll({ where: { date: qDate },include: [Prayer,PurialPlace,Sex] }).then(result=>{
         console.log(result);
         res.status(200).json(result);
     }).catch(err=>{
@@ -82,7 +85,46 @@ exports.getDayDetail=(req,res,next)=>{
     console.log(moment().format('YYYY-MM-DD'));
     const pId=req.params.pid;
     const date=req.params.date;
-    Funeral.findAll({ where: { date: date,prayerId:pId }}).then(result=>{
+    Funeral.findAll({ where: { date: date,prayerId:pId }, include: [Prayer,PurialPlace,Sex] }).then(result=>{
+        console.log(result);
+        res.status(200).json(result);
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json();
+    });
+};
+
+exports.getPrayer=(req,res,next)=>{
+    console.log(moment().format('YYYY-MM-DD'));
+    const pId=req.params.pid;
+    const date=req.params.date;
+    Prayer.findAll().then(result=>{
+        console.log(result);
+        res.status(200).json(result);
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json();
+    });
+};
+
+exports.getSexs=(req,res,next)=>{
+    console.log(moment().format('YYYY-MM-DD'));
+    const pId=req.params.pid;
+    const date=req.params.date;
+    Sex.findAll().then(result=>{
+        console.log(result);
+        res.status(200).json(result);
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json();
+    });
+};
+
+exports.getPlace=(req,res,next)=>{
+    console.log(moment().format('YYYY-MM-DD'));
+    const pId=req.params.pid;
+    const date=req.params.date;
+    PurialPlace.findAll().then(result=>{
         console.log(result);
         res.status(200).json(result);
     }).catch(err=>{
@@ -96,8 +138,9 @@ exports.addFuneral=(req,res,next)=>{
     Funeral.create({
         deadName:req.body.deadName,
         date:moment(req.body.date, "YYYY-MM-DD"), //new Date(Date.parse(req.body.date)),
-        sex:req.body.sex,
+        sexId:req.body.sex,
         prayerId:req.body.prayerId,
+        purialPlaceId:req.body.placeId,
     }).then(result=>{
         console.log(result);
         res.status(200).json();
@@ -112,8 +155,9 @@ exports.updateFuneral=(req,res,next)=>{
         id:req.body.id,
         deadName:req.body.deadName,
         date:moment(req.body.date, "YYYY-MM-DD"), //new Date(Date.parse(req.body.date)),
-        sex:req.body.sex,
+        sexId:req.body.sex,
         prayerId:req.body.prayerId,
+        purialPlaceId:req.body.placeId,
     };
     Funeral.update(funeral,{ where: { id: req.body.id } }).then(result=>{
         console.log(result);

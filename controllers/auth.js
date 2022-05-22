@@ -61,6 +61,13 @@ exports.logout=async (req,res,next)=>{
     res.status(200).json();
 }
 
+exports.isAdmin=async (req,res,next)=>{
+    if(req.session.isAuth)
+    res.status(200).json(true);
+    else
+        res.status(401).json(false);
+}
+
 exports.isAuth=async (req,res,next)=>{
     if(req.session.isAuth)
         next();

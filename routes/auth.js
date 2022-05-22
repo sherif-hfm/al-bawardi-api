@@ -6,6 +6,7 @@ const authController=require('../controllers/auth');
 router.post('/login',authController.login);
 router.post('/sginup',authController.sginup);
 router.get('/logout',authController.logout);
+router.get('/isAdmin',authController.isAdmin);
 
 
 module.exports=router;

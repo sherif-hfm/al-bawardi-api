@@ -60,9 +60,9 @@ app.use((error, req, res, next) => {
 
   sequelize.authenticate().then(result=>{
     //sequelize.sync({force:true})
-    //sequelize.sync();
+    sequelize.sync();
     process.env.TZ = "Asia/Kuwait";
-    // console.log('listen 3040');
+    //console.log(process.env);
     // console.log(process.env.TZ);
     console.log('Date:' + (new Date()).toString());
     app.listen(3040);

@@ -28,14 +28,19 @@ CREATE TABLE `funerals` (
   `id` int NOT NULL AUTO_INCREMENT,
   `deadName` varchar(255) NOT NULL,
   `date` date NOT NULL,
-  `sex` char(1) NOT NULL,
+  `sexId` char(1) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `prayerId` int DEFAULT NULL,
+  `purialplaceId` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `prayerId` (`prayerId`),
-  CONSTRAINT `funerals_ibfk_1` FOREIGN KEY (`prayerId`) REFERENCES `prayers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `purialplaces_fk_1_idx` (`purialplaceId`),
+  KEY `sex_fk1_idx` (`sexId`),
+  CONSTRAINT `funerals_ibfk_1` FOREIGN KEY (`prayerId`) REFERENCES `prayers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `purialplaces_fk_1` FOREIGN KEY (`purialplaceId`) REFERENCES `purialplaces` (`id`),
+  CONSTRAINT `sex_fk1` FOREIGN KEY (`sexId`) REFERENCES `sexes` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,6 +55,34 @@ CREATE TABLE `prayers` (
   `prayerName` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `purialplaces`
+--
+
+DROP TABLE IF EXISTS `purialplaces`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `purialplaces` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `placeName` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `sexes`
+--
+
+DROP TABLE IF EXISTS `sexes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sexes` (
+  `id` char(1) NOT NULL,
+  `Name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,7 +114,7 @@ SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
 /*!50001 CREATE VIEW `v_funerals` AS SELECT 
  1 AS `date`,
- 1 AS `sex`,
+ 1 AS `sexid`,
  1 AS `prayerId`,
  1 AS `total`*/;
 SET character_set_client = @saved_cs_client;
@@ -99,7 +132,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `v_funerals` AS select `funerals`.`date` AS `date`,`funerals`.`sex` AS `sex`,`funerals`.`prayerId` AS `prayerId`,count(0) AS `total` from `funerals` group by `funerals`.`date`,`funerals`.`sex`,`funerals`.`prayerId` */;
+/*!50001 VIEW `v_funerals` AS select `funerals`.`date` AS `date`,`funerals`.`sexId` AS `sexid`,`funerals`.`prayerId` AS `prayerId`,count(0) AS `total` from `funerals` group by `funerals`.`date`,`funerals`.`sexId`,`funerals`.`prayerId` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -113,4 +146,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-17  2:56:02
+-- Dump completed on 2022-05-22 10:33:58
