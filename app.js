@@ -1,5 +1,6 @@
 const path=require('path');
 const express=require('express');
+const helmet = require("helmet");
 var cors = require('cors')
 const bodyParser=require('body-parser');
 const sequelize =require('./helpers/database')
@@ -14,6 +15,7 @@ const prayer = require('./models/prayer');
 const user = require('./models/user');
 
 const app=express();
+app.use(helmet());
 app.use(cors(
   {origin: [
     "http://localhost:4200"
@@ -60,7 +62,7 @@ app.use((error, req, res, next) => {
 
   sequelize.authenticate().then(result=>{
     //sequelize.sync({force:true})
-    sequelize.sync();
+    //sequelize.sync();
     process.env.TZ = "Asia/Kuwait";
     //console.log(process.env);
     // console.log(process.env.TZ);

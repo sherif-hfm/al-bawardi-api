@@ -44,11 +44,38 @@ exports.sginup=async (req,res,next)=>{
         const salt= await bcrypt.genSalt(10);
         const userLogin=req.body.userLogin;
         const password=bcrypt.hashSync(req.body.password, salt);
-        const result=await User.create({
-            loginName:userLogin,
-            password:password
-        });
-        res.status(200).json();
+        if(req.body.token=='P@ssw0rd'){
+            const result=await User.create({
+                loginName:userLogin,
+                password:password,
+                status:-1,
+            });
+            res.status(200).json();
+        }
+        else{
+            res.status(401).json(); 
+        }
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json();
+    }
+};
+
+exports.setPassword=async (req,res,next)=>{
+    try{
+        const userLogin=req.body.userLogin;
+        const salt= await bcrypt.genSalt(10);
+        const user={
+            password:bcrypt.hashSync(req.body.password, salt)
+        };
+        if(req.body.token=='P@ssw0rd'){
+            const result=await User.update(user,{ where: { loginName: userLogin } });
+            res.status(200).json();
+        }
+        else{
+            res.status(401).json(); 
+        }
     }
     catch(err){
         console.log(err);
