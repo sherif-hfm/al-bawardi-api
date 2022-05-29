@@ -3,6 +3,7 @@ const {body}=require('express-validator');
 const router=express.Router();
 const authController=require('../controllers/auth');
 
+router.get('/env',authController.env);
 router.post('/login',authController.login);
 router.post('/sginup',authController.sginup);
 router.post('/setpwd',authController.setPassword);

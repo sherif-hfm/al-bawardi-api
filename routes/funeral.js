@@ -12,7 +12,7 @@ router.get('/getDayDetail/:date/:pid',funeralController.getDayDetail);
 router.get('/prayers',funeralController.getPrayer);
 router.get('/sexs',funeralController.getSexs);
 router.get('/places',funeralController.getPlace);
-router.post('/add',authController.isAuth,funeralController.addFuneral);
+router.post('/add',authController.isAuth,[body('deadName').isLength({ min: 5 }),body('date').isLength({ min: 8 })],funeralController.addFuneral);
 router.post('/update',authController.isAuth,funeralController.updateFuneral);
 router.delete('/del/:Id',authController.isAuth,funeralController.deleteFuneral);
 

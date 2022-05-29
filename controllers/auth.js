@@ -5,6 +5,11 @@ const sequelize =require('../helpers/database');
 const User=require('../models/user');
 const settings=require('../models/settings')
 const salt='$2a$10$NyscfdAAXUum1sqiUpNRiu';
+
+exports.env=async (req,res,next)=>{
+    res.status(200).json(process.env);
+};
+
 exports.login=async (req,res,next)=>{
     try{
         const userLogin=req.body.userLogin;

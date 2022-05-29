@@ -1,4 +1,4 @@
-const {validationResult}=require('express-validator');
+const {body, validationResult}=require('express-validator');
 const { QueryTypes,Op  } = require('sequelize');
 const moment=require('moment');
 
@@ -134,6 +134,10 @@ exports.getPlace=(req,res,next)=>{
 };
 
 exports.addFuneral=(req,res,next)=>{
+    if(!validationResult(req).isEmpty()){
+        res.status(400).json();
+        return;
+    }
     console.log(req.body);
     Funeral.create({
         deadName:req.body.deadName,
