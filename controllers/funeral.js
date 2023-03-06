@@ -11,6 +11,36 @@ const PurialPlace=require('../models/burial-place');
 const Sex=require('../models/sex');
 
 exports.getTodayFuneral=(req,res,next)=>{
+    let sql=`SELECT prayerId,prayers.prayerName,
+    COUNT(CASE WHEN funerals.sexId = 'M' THEN 0 END) AS 'M',
+    COUNT(CASE WHEN funerals.sexId = 'F' THEN 0 END) AS 'F',
+    COUNT(CASE WHEN funerals.sexId = 'B' THEN 0 END) AS 'B',
+    COUNT(CASE WHEN funerals.sexId = 'G' THEN 0 END) AS 'G',
+    COUNT(*) AS 'Total'
+    FROM  funerals,prayers
+    where
+    DATE=$1
+    and funerals.prayerId=prayers.id
+    GROUP BY funerals.prayerId,prayers.prayerName;`
+    console.log(arabNum(moment().format('YYYY-MM-DD')));
+    console.log(umalqura.gregorianToUmAlQura(new Date()));
+    sequelize.query(sql,
+    {
+        //bind: [moment().format('YYYY-MM-DD')],
+        bind: [moment('2022-10-14','YYYY-MM-DD').format('YYYY-MM-DD')],
+        type: QueryTypes.SELECT,
+        raw: true
+    }).then(result=>{
+        console.log(result);
+        res.status(200).json(result);
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json();
+    });
+};
+
+
+exports.getTodayFuneral_old=(req,res,next)=>{
     let sql="CALL `al-bawardi`.`getFuneral`($1);"
     console.log(arabNum(moment().format('YYYY-MM-DD')));
     console.log(umalqura.gregorianToUmAlQura(new Date()));
@@ -144,7 +174,7 @@ exports.addFuneral=(req,res,next)=>{
         date:moment(req.body.date, "YYYY-MM-DD"), //new Date(Date.parse(req.body.date)),
         sexId:req.body.sex,
         prayerId:req.body.prayerId,
-        purialPlaceId:req.body.placeId,
+        purialplaceId:req.body.placeId,
     }).then(result=>{
         console.log(result);
         res.status(200).json();
@@ -161,7 +191,7 @@ exports.updateFuneral=(req,res,next)=>{
         date:moment(req.body.date, "YYYY-MM-DD"), //new Date(Date.parse(req.body.date)),
         sexId:req.body.sex,
         prayerId:req.body.prayerId,
-        purialPlaceId:req.body.placeId,
+        purialplaceId:req.body.placeId,
     };
     Funeral.update(funeral,{ where: { id: req.body.id } }).then(result=>{
         console.log(result);

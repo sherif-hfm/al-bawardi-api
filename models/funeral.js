@@ -3,7 +3,7 @@ const sequelize = require('../helpers/database');
 const prayer=require('./prayer');
 const PurialPlace=require('./sex');
 const Sex=require('./burial-place');
-const Funeral = sequelize.define('Funeral', {
+const Funeral = sequelize.define('funeral', {
     // Model attributes are defined here
     deadName: {
       type: DataTypes.STRING,

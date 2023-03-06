@@ -1,7 +1,7 @@
 const { Sequelize,DataTypes } = require('sequelize');
 const sequelize = require('../helpers/database')
 
-const PurialPlace = sequelize.define('purialPlace', {
+const PurialPlace = sequelize.define('purialplace', {
     // Model attributes are defined here
     id: {
         type: DataTypes.INTEGER,
