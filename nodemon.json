@@ -4,9 +4,10 @@
         "NODE_ENV":"dev",
         "PORT":"3040",
         "MY_SQL_HOST":"localhost",
-        "MY_SQL_USER":"root",
-        "MY_SQL_PWD":"P@ssw0rd",
-        "MY_SQL_DB":"al-bawardi",
+        "MY_SQL_USER":"user",
+        "MY_SQL_PWD":"123",
+        "MY_SQL_DB":"janaez",
+        "CORS_ORGN1":"http://localhost:4200,http://www.localhost:4200",
         "CORS_ORGN":"http://localhost:4200"
     }
 }

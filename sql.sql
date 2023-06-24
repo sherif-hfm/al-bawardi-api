@@ -60,6 +60,14 @@ CREATE TABLE IF NOT EXISTS `prayers` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
+INSERT INTO `prayers` (`id`, `prayerName`) VALUES
+(1, 'الفجر'),
+(2, 'الظهر'),
+(3, 'الجمعة'),
+(4, 'العصر'),
+(5, 'المغرب'),
+(6, 'العشاء');
+
 -- Data exporting was unselected.
 
 -- Dumping structure for table al-bawardi.purialplaces
@@ -68,6 +76,10 @@ CREATE TABLE IF NOT EXISTS `purialplaces` (
   `placeName` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `purialplaces` (`id`, `placeName`) VALUES
+(1, 'الدفن داخل الرياض'),
+(2, ' الدفن خارج الرياض');
 
 -- Data exporting was unselected.
 
@@ -87,6 +99,12 @@ CREATE TABLE IF NOT EXISTS `sexes` (
   `Name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `sexes` (`id`, `Name`) VALUES
+('B', 'طفل'),
+('F', 'امراة'),
+('G', 'طفلة'),
+('M', 'رجل');
 
 -- Data exporting was unselected.
 

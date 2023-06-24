@@ -14,7 +14,7 @@ exports.login=async (req,res,next)=>{
     try{
         const userLogin=req.body.userLogin;
         const password=req.body.password;
-         const user= await User.findOne({ where: { loginName: userLogin,loginErrors:{[Op.lte] : 4},status:0 } });
+         const user= await User.findOne({ where: { loginName: userLogin,loginErrors:{[Op.lte] : 11},status:0 } });
          console.log(user);
          if(user){
             if(bcrypt.compareSync(password,user.password)){

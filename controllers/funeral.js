@@ -26,8 +26,8 @@ exports.getTodayFuneral=(req,res,next)=>{
     console.log(umalqura.gregorianToUmAlQura(new Date()));
     sequelize.query(sql,
     {
-        //bind: [moment().format('YYYY-MM-DD')],
-        bind: [moment('2022-10-14','YYYY-MM-DD').format('YYYY-MM-DD')],
+        bind: [moment().format('YYYY-MM-DD')],
+        //bind: [moment('2023-03-03','YYYY-MM-DD').format('YYYY-MM-DD')],
         type: QueryTypes.SELECT,
         raw: true
     }).then(result=>{
@@ -39,9 +39,8 @@ exports.getTodayFuneral=(req,res,next)=>{
     });
 };
 
-
 exports.getTodayFuneral_old=(req,res,next)=>{
-    let sql="CALL `al-bawardi`.`getFuneral`($1);"
+    let sql="CALL getFuneral($1);"
     console.log(arabNum(moment().format('YYYY-MM-DD')));
     console.log(umalqura.gregorianToUmAlQura(new Date()));
     sequelize.query(sql,

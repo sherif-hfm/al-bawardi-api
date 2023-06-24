@@ -17,12 +17,14 @@ const prayer = require('./models/prayer');
 const user = require('./models/user');
 
 const app=express();
+
 app.use(nocache());
 app.use(helmet());
 app.use(cors(
-  {origin: [
-    process.env.CORS_ORGN
-  ], credentials: true}
+  {
+    origin: [process.env.CORS_ORGN.split(',')],
+    credentials: true
+}
 ));
 
 //app.use(bodyParser.urlencoded()); // for x-www-from-urlencoded
@@ -72,6 +74,8 @@ app.use((error, req, res, next) => {
   });
   
 
+
+
   sequelize.authenticate().then(result=>{
     //sequelize.sync({force:true})
     //sequelize.sync();
@@ -97,5 +101,6 @@ app.use((error, req, res, next) => {
     console.log(err); 
   });
   
+
  
 
