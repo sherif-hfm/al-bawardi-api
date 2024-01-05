@@ -14,6 +14,7 @@ var MySQLStore = require('express-mysql-session')(session);
 
 const funeralRoute=require('./routes/funeral');
 const authRoute=require('./routes/auth');
+const rptRoute=require('./routes/reports');
 
 const prayer = require('./models/prayer');
 const user = require('./models/user');
@@ -92,6 +93,7 @@ app.use(cookieParser());
 
 app.use('/funeral',funeralRoute);
 app.use('/auth',authRoute);
+app.use('/reports',rptRoute);
 
 
 // general error handling
