@@ -26,8 +26,8 @@ exports.getTodayFuneral=(req,res,next)=>{
     console.log(umalqura.gregorianToUmAlQura(new Date()));
     sequelize.query(sql,
     {
-        //bind: [moment().format('YYYY-MM-DD')],
-        bind: [moment('2023-06-24','YYYY-MM-DD').format('YYYY-MM-DD')],
+        bind: [moment().format('YYYY-MM-DD')],
+        //bind: [moment('2023-06-24','YYYY-MM-DD').format('YYYY-MM-DD')],
         type: QueryTypes.SELECT,
         raw: true
     }).then(result=>{
